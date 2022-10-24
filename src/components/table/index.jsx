@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
-import { Avatar, Box, Table as MuiTable, TableCell, Typography } from "@mui/material";
+import { Box, Table as MuiTable, TableCell, Typography } from "@mui/material";
 import TablePagination from "@mui/material/TablePagination";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -49,63 +49,43 @@ function Table({ columns, rows }) {
     .map((row, key) => {
       const rowKey = `row-${key}`;
 
-      const tableRow = columns.map(({ name, align, width, render }) => {
+      const tableRow = columns.map(({ name, align, width }) => {
         let template;
 
-        if (Array.isArray(row[name])) {
+        if (["object"].includes(typeof row[name])) {
           template = (
-            <Box key={uuidv4()} component="td" p={1}>
-              <Box display="flex" alignItems="center" py={0.5} px={1}>
-                <Box mr={2}>
-                  <Avatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
-                </Box>
-                <Typography
-                  color="white"
-                  variant="button"
-                  fontWeight="medium"
-                  sx={{ width: width || "max-content" }}
-                >
-                  {row[name][1]}
-                </Typography>
-              </Box>
-            </Box>
+            <TableCell
+              key={uuidv4()}
+              sx={{
+                width: width ?? "auto",
+                textAlign: align,
+              }}
+            >
+              {row[name]}
+            </TableCell>
           );
         } else {
-          if (render) {
-            template = (
-              <TableCell
-                key={uuidv4()}
+          template = (
+            <TableCell
+              key={uuidv4()}
+              sx={{
+                width: width ?? "auto",
+                textAlign: align,
+              }}
+            >
+              <Typography
+                variant="button"
+                fontWeight="regular"
+                color="text"
                 sx={{
-                  width: width ?? "auto",
-                  textAlign: align,
+                  display: "inline-block",
+                  width: width || "max-content",
                 }}
               >
-                {render}
-              </TableCell>
-            );
-          } else {
-            template = (
-              <TableCell
-                key={uuidv4()}
-                sx={{
-                  width: width ?? "auto",
-                  textAlign: align,
-                }}
-              >
-                <Typography
-                  variant="button"
-                  fontWeight="regular"
-                  color="text"
-                  sx={{
-                    display: "inline-block",
-                    width: width || "max-content",
-                  }}
-                >
-                  {row[name]}
-                </Typography>
-              </TableCell>
-            );
-          }
+                {row[name]}
+              </Typography>
+            </TableCell>
+          );
         }
 
         return template;

@@ -1,39 +1,24 @@
+import { Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import BaseCard from "./baseCard/BaseCard";
 
-const Visualization = ({ dataRowP }) => {
+const Visualization = ({ source, title }) => {
   const [dataChart, setDataChart] = useState([]);
 
   useEffect(() => {
-    const groupByYear = dataRowP
-      .sort((a, b) => a.Year - b.Year)
-      .reduce((group, current) => {
-        const key = `${current.Year}`;
+    const array = source
+      .sort((a, b) => a.Month - b.Month)
+      .map((item) => [`${item.Month}`, item.Qw, item.Qg, item.Qo, item.Qs]);
 
-        group[key] = {
-          Qw: (group[key]?.Qw ?? 0) + current.Qw,
-          Qg: (group[key]?.Qg ?? 0) + current.Qg,
-          Qo: (group[key]?.Qo ?? 0) + current.Qo,
-          Qs: (group[key]?.Qs ?? 0) + current.Qs,
-        };
-
-        return group;
-      }, {});
-
-    const array = Object.entries(groupByYear).map((item) => {
-      const [key, values] = item;
-      return [`${key}`, values.Qw, values.Qg, values.Qo, values.Qs];
-    });
-
-    const data = [["Year", "Water", "Gas", "Oil", "WaterInj"], ...array];
+    const data = [["Month", "Water", "Gas", "Oil", "WaterInj"], ...array];
 
     setDataChart(data);
-  }, [dataRowP]);
+  }, [source]);
 
   const options = {
     hAxis: {
-      title: "Years",
+      title: "Months",
     },
     vAxis: {
       title: "Rate taking",
@@ -46,6 +31,13 @@ const Visualization = ({ dataRowP }) => {
 
   return (
     <BaseCard title="Visualization of the Rate for different energies over time">
+      <Stack mb={4}>
+        <Typography color="textSecondary" variant="caption">
+          Selected
+        </Typography>
+        <Typography variant="h5">{title}</Typography>
+      </Stack>
+
       <Chart
         chartType="LineChart"
         width="100%"

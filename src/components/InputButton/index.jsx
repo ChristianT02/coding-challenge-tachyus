@@ -6,13 +6,13 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import FormHelperText from "@mui/material/FormHelperText";
 
-const InputButton = ({ source, handleInput }) => {
+const InputButton = ({ source, initial, handleInput, label, nameFilter }) => {
   const [inputUser, setInputUser] = useState("");
-  const [count, setCount] = useState(source.length);
+  const [count, setCount] = useState(initial.length);
 
   const filterFunction = (inputUser) => {
     const dataC = source.filter((d) =>
-      d.wellName.toLowerCase().startsWith(inputUser.toLowerCase())
+      d[nameFilter].toLowerCase().startsWith(inputUser.toLowerCase())
     );
 
     setCount(dataC.length);
@@ -31,17 +31,17 @@ const InputButton = ({ source, handleInput }) => {
   };
 
   const handleCleanFilter = () => {
-    handleInput(source);
+    handleInput(initial);
     setInputUser("");
-    setCount(source.length);
+    setCount(initial.length);
   };
 
   return (
     <Box className="input-search">
       <FormControl error={count === 0}>
         <TextField
-          label="Enter a filter"
-          style={{ width: "150px" }}
+          label={label}
+          style={{ width: "200px" }}
           id="outlined-size-small"
           aria-describedby="component-helper-text"
           size="small"
