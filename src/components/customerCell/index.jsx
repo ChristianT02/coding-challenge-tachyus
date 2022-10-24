@@ -2,7 +2,7 @@ import { Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import IconButton from "../iconButton";
 
-const CustomerCell = ({ value: initial, update, selected }) => {
+const CustomerCell = ({ value: initial, update, selected, withSelected }) => {
   const [value, setValue] = useState(initial);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -51,7 +51,7 @@ const CustomerCell = ({ value: initial, update, selected }) => {
           </Typography>
 
           <IconButton color="info" icon="edit" onClick={() => setIsEdit(true)} />
-          <IconButton color="info" icon="eye" onClick={view} />
+          {withSelected && <IconButton color="info" icon="eye" onClick={view} />}
         </>
       )}
     </Stack>

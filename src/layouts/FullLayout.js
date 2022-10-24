@@ -1,6 +1,7 @@
 import React from "react";
 import { experimentalStyled, useMediaQuery, Container, Box } from "@mui/material";
 import Footer from "./footer/Footer";
+import Sidebar from "./sidebar/Sidebar";
 
 const MainWrapper = experimentalStyled("div")(() => ({
   display: "flex",
@@ -24,13 +25,22 @@ const PageWrapper = experimentalStyled("div")(({ theme }) => ({
 }));
 
 const FullLayout = ({ children }) => {
+  const [isSidebarOpen, setSidebarOpen] = React.useState(true);
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
   return (
     <MainWrapper>
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        isMobileSidebarOpen={isMobileSidebarOpen}
+        onSidebarClose={() => setMobileSidebarOpen(false)}
+      />
       <PageWrapper>
         <Container
           maxWidth={false}
           sx={{
             paddingTop: "20px",
+            paddingLeft: isSidebarOpen && lgUp ? "280px!important" : "",
           }}
         >
           <Box sx={{ minHeight: "calc(100vh - 160px)" }}>{children}</Box>

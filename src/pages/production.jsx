@@ -1,12 +1,11 @@
 import { Grid } from "@mui/material";
+import React from "react";
 import TableProduction from "../components/table/TableProduction";
-import Visualization from "../components/Visualization";
-import completions from "./../data/csv/completions.csv";
 import production from "./../data/csv/production.csv";
-export default function Home() {
+
+const Production = () => {
   return (
     <Grid container spacing={0}>
-      <Visualization />
       <Grid item xs={12} lg={12}>
         <TableProduction
           source={production.map((item) => ({ ...item, gross: +item.Qw + +item.Qo }))}
@@ -14,4 +13,6 @@ export default function Home() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default Production;

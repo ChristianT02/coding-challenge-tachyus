@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { Chart } from "react-google-charts";
-import BaseCard from "./baseCard/BaseCard";
+import { Chart as ChartGoogle } from "react-google-charts";
+import BaseCard from "../baseCard/BaseCard";
 
-const Visualization = ({ source, title }) => {
+const Chart = ({ source, title }) => {
   const [dataChart, setDataChart] = useState([]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Visualization = ({ source, title }) => {
         <Typography variant="h5">{title}</Typography>
       </Stack>
 
-      <Chart
+      <ChartGoogle
         chartType="LineChart"
         width="100%"
         height="100%"
@@ -50,4 +50,4 @@ const Visualization = ({ source, title }) => {
   );
 };
 
-export default Visualization;
+export default Chart;

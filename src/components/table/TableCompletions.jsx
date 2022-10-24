@@ -31,6 +31,7 @@ const TableCompletions = ({ source, onSelected }) => {
           value={item.wellName}
           update={(value) => updateDate({ value, order: item.order, name: "wellName" })}
           selected={() => handleSelected(item.wellName, item.wellAPI)}
+          withSelected={typeof onSelected === "function"}
         />
       ),
     }));
